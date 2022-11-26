@@ -1,14 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project.Models;
+using Project.Services.Home;
 using System.Diagnostics;
 
 namespace Project.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IHomeService service;
+
+        public HomeController(IHomeService service)
         {
-            return View();
+            this.service = service;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            return View(await service.GetHomeProductsAsync());
         }
 
 

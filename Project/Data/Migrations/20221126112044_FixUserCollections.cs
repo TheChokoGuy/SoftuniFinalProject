@@ -1,12 +1,10 @@
 ﻿
 #nullable disable
 
-
 namespace Project.Data.Migrations
 {
-    using Microsoft.EntityFrameworkCore.Migrations;
-
-    public partial class Initial : Migration
+using Microsoft.EntityFrameworkCore.Migrations;
+    public partial class FixUserCollections : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

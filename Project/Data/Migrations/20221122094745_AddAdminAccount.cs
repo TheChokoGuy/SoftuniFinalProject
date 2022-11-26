@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Project.Data.Models;
-using System.Text;
+﻿
 
 #nullable disable
 
 namespace Project.Data.Migrations
 {
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore.Migrations;
+    using Project.Data.Models;
+    using System.Text;
     public partial class AddAdminAccount : Migration
     {
-        const string ADMIN_USER_GUID = "NO";
-        const string ADMIN_ROLE_GUID = "NO";
+        const string ADMIN_USER_GUID = "3d5d0982-31bc-4b38-963a-4c99e9fc9aca";
+        const string ADMIN_ROLE_GUID = "f58b57e0-9a3e-43db-87bb-f434c1b46ddf";
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
@@ -19,7 +20,7 @@ namespace Project.Data.Migrations
 
             var hasher = new PasswordHasher<User>();
 
-            var passwordHash = hasher.HashPassword(null, "nopaswordforu");
+            var passwordHash = hasher.HashPassword(null, "hehcn9@8cnaXe");
 
             StringBuilder sb = new StringBuilder();
 
@@ -28,13 +29,13 @@ namespace Project.Data.Migrations
             sb.AppendLine($"'{ADMIN_USER_GUID}'");
             sb.AppendLine(",'Admin'");
             sb.AppendLine(",'ADMIN'");
-            sb.AppendLine(",'thisisnotmyemail.com'");
+            sb.AppendLine(",'newprogrammer64@gmail.com'");
             sb.AppendLine(", 0");
             sb.AppendLine(", 0");
             sb.AppendLine(", 0");
             sb.AppendLine(", 0");
             sb.AppendLine(", 0");
-            sb.AppendLine(",'THISISNOTMYEMAIL.COM'");
+            sb.AppendLine(",'NEWPROGRAMMER64@GMAIL.COM'");
             sb.AppendLine($", '{passwordHash}'");
             sb.AppendLine(", ''");
             sb.AppendLine(")");

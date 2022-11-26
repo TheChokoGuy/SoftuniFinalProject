@@ -1,8 +1,36 @@
-﻿@{
+﻿@model IEnumerable<Banner>
+
+@{
     ViewData["Title"] = "Home Page";
+    var products = Model.ToList();
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        @for (int i = 0; i < products.Count(); i++)
+        {
+            var product = products[i];
+            <a class="btn btn-primary" asp-controller="Products" asp-action="Product"
+                            asp-route-productId="@product.Id">
+            <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
+                <img class="d-block w-100" style="height:500px"
+                    src="@product.ImageUrl" alt="@product.Title">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>
+                        
+                    </h5>
+                </div>
+            </div>
+
+            </a>
+        }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>

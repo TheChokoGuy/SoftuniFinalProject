@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Data;
 
@@ -11,9 +12,10 @@ using Project.Data;
 namespace Project.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221123125958_FixUser")]
+    partial class FixUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,28 +161,6 @@ namespace Project.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Project.Data.Models.Banner", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Banners");
-                });
-
             modelBuilder.Entity("Project.Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -189,16 +169,11 @@ namespace Project.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ItemId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
 
                     b.ToTable("Categories");
 
@@ -394,13 +369,6 @@ namespace Project.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Project.Data.Models.Category", b =>
-                {
-                    b.HasOne("Project.Data.Models.Item", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("ItemId");
-                });
-
             modelBuilder.Entity("Project.Data.Models.Item", b =>
                 {
                     b.HasOne("Project.Data.Models.Category", "Category")
@@ -418,11 +386,6 @@ namespace Project.Data.Migrations
                         .HasForeignKey("UserId1");
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Project.Data.Models.Item", b =>
-                {
-                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("Project.Data.Models.User", b =>

@@ -1,0 +1,14 @@
+﻿@model Item
+
+@{
+    ViewBag.Title = "All Products";
+}
+
+<div class="d-flex p-3 justify-content-evenly">
+    <div class="d-flex flex-column">
+        <img class="" style="width: 24rem;" src="@Model.ImageUrl" alt="Product Image">
+    </div>
+    <div class="d-flex flex-column ms-5 overflow-visible">
+        <partial name="/Views/Products/PartialViews/_ProductDescriptionPartial.cshtml" model="@Model"/>
+    </div>
+</div>

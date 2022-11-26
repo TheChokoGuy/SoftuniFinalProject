@@ -5,8 +5,15 @@ namespace Project.Data.Models
 {
     public class User : IdentityUser
     {
-        public IEnumerable<Item> Liked = new List<Item>();
+        public User()
+        {
 
-        public IEnumerable<Item> Cart = new List<Item>();
+            Liked = new List<Item>();
+            Cart = new List<Item>();
+        }
+
+        public virtual ICollection<Item> Liked { get; set; }
+
+        public virtual ICollection<Item> Cart { get; set; }
     }
 }

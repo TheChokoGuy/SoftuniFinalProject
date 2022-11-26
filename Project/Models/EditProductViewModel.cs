@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Project.Data.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace Project.Data.Models
+namespace Project.Models
 {
-    public class Item
+    public class EditProductViewModel
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -17,16 +16,10 @@ namespace Project.Data.Models
         public string Description { get; set; }
 
         [Required]
-        public string ImageUrl { get; set; }
-
-        [Required]
-        [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 
         [Required]
-        public Category Category { get; set; }
-
-        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
+        public string ImageUrl { get; set; }
 
         [Required]
         public decimal Price { get; set; }
@@ -34,7 +27,6 @@ namespace Project.Data.Models
         [Required]
         public int AvailableProducts { get; set; }
 
-
-        //Add opportunity for reviews
+        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
     }
 }

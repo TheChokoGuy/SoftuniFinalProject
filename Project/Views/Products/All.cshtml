@@ -1,0 +1,16 @@
+﻿@model IEnumerable<ProductViewModel>
+
+@{
+    ViewBag.Title = "All Products";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="text-center row gap-2">
+    @foreach (var product in Model)
+    {
+        <partial name="/Views/Products/PartialViews/_ProductPartial.cshtml" model="product"/>
+    }
+</div>

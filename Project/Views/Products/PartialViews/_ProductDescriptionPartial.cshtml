@@ -1,0 +1,25 @@
+﻿@model Item
+
+<div>
+        <h1 class="mt-4">@Model.Name</h1>
+        <p class="ps-2">@Model.Description</p>
+        @if(Model.AvailableProducts > 0)
+        {
+            <h3 class="fw-lighter mt-2 text-muted">Available</h3>
+        }
+        else
+        {
+            <h3 class="text-danger fw-normal mt-2">Sold out</h3>
+        }
+        <div class="d-flex flex-row mt-2">
+            <h2 class=""><h4 class="fw-normal text-muted mt-2">Price:</h4> <h2 class="ms-1 mb-4 fw-light text-danger">@Model.Price</h2></h2>
+            <div class="">
+                <form class="input-group-sm" asp-controller="User" asp-action="AddToCart" asp-route-productId="@Model.Id">
+                    <input type="submit" value="Add To Cart" class="fs-6 btn btn-primary p-2 ms-3" />
+                </form> 
+            </div>
+        </div>
+        <div class="d-flex flex-row mt-2">
+            <img src="~/heart.png" width="20px"/>
+        </div>
+</div>

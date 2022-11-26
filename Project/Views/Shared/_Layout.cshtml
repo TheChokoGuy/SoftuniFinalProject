@@ -9,6 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Project</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Project.styles.css" asp-append-version="true" />
@@ -29,17 +30,23 @@
                             <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">Home</a>
+                            </li>
                         }
                         else
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">Home</a>
+                            </li>
                         }
-                        @if(User?.Identity?.IsAuthenticated ?? false && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "admin"))
+                        @if(User.Identity.IsAuthenticated == true && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "Admin"))
                         {
                             <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">admin stuff</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Add">Add Product</a>
                             </li>
                         }
                     </ul>

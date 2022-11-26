@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Project.Data.Models;
 using Project.Models;
+using Project.Services;
+using System.Security.Claims;
 
 namespace Project.Controllers
 {
@@ -13,12 +15,16 @@ namespace Project.Controllers
 
         private readonly SignInManager<User> signInManager;
 
+        private readonly IUserService service;
+
         public UserController(
             UserManager<User> _userManager,
-            SignInManager<User> _signInManager)
+            SignInManager<User> _signInManager,
+            IUserService service)
         {
             userManager = _userManager;
             signInManager = _signInManager;
+            this.service = service;
         }
 
         [HttpGet]
@@ -110,6 +116,29 @@ namespace Project.Controllers
             await signInManager.SignOutAsync();
 
             return RedirectToAction("Index","Home");
+        }
+
+        [HttpPost]
+        [Authorize]
+
+        public async Task<IActionResult> AddToCart(int productId)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await service.AddToCartAsync(productId, userId);
+            var user = await this.userManager.FindByIdAsync(userId);
+
+            return RedirectToAction(nameof(Cart));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Cart()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await this.userManager.FindByIdAsync(userId);
+            var products = await service.GetCartProducts(userId);
+
+            return View(products);
         }
     }
 }

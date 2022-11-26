@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Data.Models;
+using Project.ModelBinders;
+using Project.Services;
+using Project.Services.Home;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +23,17 @@ builder.Services.AddDefaultIdentity<User>(options => {
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddMvc(config => config.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider()));
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/User/Login";
+    options.LogoutPath = "/Users/Logout";
+
+});
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddTransient<IHomeService, HomeService>();
+
 
 var app = builder.Build();
 
