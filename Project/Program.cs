@@ -5,6 +5,7 @@ using Project.Data;
 using Project.Data.Models;
 using Project.ModelBinders;
 using Project.Services;
+using Project.Services.Banner;
 using Project.Services.Home;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 });
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IBannerService, BannerService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient<IHomeService, HomeService>();
 

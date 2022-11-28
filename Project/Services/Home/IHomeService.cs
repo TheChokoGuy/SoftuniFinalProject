@@ -1,8 +1,7 @@
-﻿using Project.Data.Models;
-using Project.Models;
-
-namespace Project.Services.Home
+﻿namespace Project.Services.Home
 {
+    using Project.Data.Models;
+    using Project.Models;
     public interface IHomeService
     {
         Task<IEnumerable<Banner>> GetHomeProductsAsync();

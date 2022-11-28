@@ -1,9 +1,9 @@
-﻿using Project.Data;
-using Project.Data.Models;
-using Project.Models;
-
-namespace Project.Services.Home
+﻿namespace Project.Services.Home
 {
+    using Project.Data;
+    using Project.Data.Models;
+    using Project.Models;
+
     public class HomeService : IHomeService
     {
         private readonly ApplicationDbContext context;
@@ -16,12 +16,7 @@ namespace Project.Services.Home
 
         public async Task<IEnumerable<Banner>> GetHomeProductsAsync()
         {
-            return this.context.Items.OrderByDescending(i => i.Id).Select(i => new Banner
-            {
-                Id = i.Id,
-                Title = i.Name,
-                ImageUrl = i.ImageUrl
-            }).Take(5);
+            return this.context.Banners.OrderByDescending(i => i.Id).Take(5);
         }
     }
 }

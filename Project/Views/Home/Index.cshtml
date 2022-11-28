@@ -5,17 +5,17 @@
     var products = Model.ToList();
 }
 
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
+<div class="">
+    <div class="">
         @for (int i = 0; i < products.Count(); i++)
         {
             var product = products[i];
-            <a class="btn btn-primary" asp-controller="Products" asp-action="Product"
-                            asp-route-productId="@product.Id">
-            <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
-                <img class="d-block w-100" style="height:500px"
+            <a class="" asp-controller="Products" asp-action="Product"
+                            asp-route-productId="2">
+            <div class="">
+                <img class="img-fluid" style="width: 90vw"
                     src="@product.ImageUrl" alt="@product.Title">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="">
                     <h5>
                         
                     </h5>
@@ -25,12 +25,12 @@
             </a>
         }
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <button class="" type="button" data-bs-target="" data-bs-slide="prev">
+        <span class="" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <button class="" type="button" data-bs-target="" data-bs-slide="next">
+        <span class="" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
 </div>

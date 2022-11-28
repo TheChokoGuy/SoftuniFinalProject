@@ -118,27 +118,6 @@ namespace Project.Controllers
             return RedirectToAction("Index","Home");
         }
 
-        [HttpPost]
-        [Authorize]
-
-        public async Task<IActionResult> AddToCart(int productId)
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await service.AddToCartAsync(productId, userId);
-            var user = await this.userManager.FindByIdAsync(userId);
-
-            return RedirectToAction(nameof(Cart));
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> Cart()
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await this.userManager.FindByIdAsync(userId);
-            var products = await service.GetCartProducts(userId);
-
-            return View(products);
-        }
+        
     }
 }
