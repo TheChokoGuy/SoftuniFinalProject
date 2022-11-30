@@ -8,13 +8,13 @@ using Project.Models;
 
 namespace Project.Services
 {
-    public class UserService : IUserService
+    public class CartService : ICartService
     {
         private readonly ApplicationDbContext context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private ISession _session => _httpContextAccessor.HttpContext.Session;
 
-        public UserService(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+        public CartService(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
             _httpContextAccessor = httpContextAccessor;
@@ -67,18 +67,21 @@ namespace Project.Services
 
             List<ProductViewModel> models = new List<ProductViewModel>();
 
+
             foreach (var item in items)
             {
+                Category cateogry = await context.Categories.FindAsync(item.CategoryId);
+
                 models.Add(new ProductViewModel()
                 {
                     Id = item.Id,
                     Name = item.Name,
                     Description = item.Description,
                     AvailableProducts = item.AvailableProducts,
-                    Category = context.Categories.FindAsync(item.CategoryId).ToString(),
+                    Category = cateogry.Name,
                     ImageUrl = item.ImageUrl,
                     Price = item.Price
-                });
+                }); 
             }
 
             return models;

@@ -4,7 +4,7 @@ using System.Security.Claims;
 
 namespace Project.Services
 {
-    public interface IUserService
+    public interface ICartService
     {
         public Task AddToCartAsync(int productId);
 
