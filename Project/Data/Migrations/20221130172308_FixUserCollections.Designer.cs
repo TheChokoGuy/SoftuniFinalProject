@@ -12,7 +12,7 @@ using Project.Data;
 namespace Project.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221126112044_FixUserCollections")]
+    [Migration("20221130172308_FixUserCollections")]
     partial class FixUserCollections
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,6 +161,28 @@ namespace Project.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Project.Data.Models.Banner", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Banners");
+                });
+
             modelBuilder.Entity("Project.Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -241,19 +263,9 @@ namespace Project.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Items");
                 });
@@ -389,27 +401,12 @@ namespace Project.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Project.Data.Models.User", null)
-                        .WithMany("Cart")
-                        .HasForeignKey("UserId");
-
-                    b.HasOne("Project.Data.Models.User", null)
-                        .WithMany("Liked")
-                        .HasForeignKey("UserId1");
-
                     b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Project.Data.Models.Item", b =>
                 {
                     b.Navigation("Categories");
-                });
-
-            modelBuilder.Entity("Project.Data.Models.User", b =>
-                {
-                    b.Navigation("Cart");
-
-                    b.Navigation("Liked");
                 });
 #pragma warning restore 612, 618
         }

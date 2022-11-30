@@ -9,7 +9,7 @@
     <div class="card-body">
         <h5 class="card-title mt-1">@Model.Name</h5>
         <div>
-            @if(User.Identity.IsAuthenticated == true && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "Admin"))
+            @if(SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "Admin"))
             {
                <a asp-controller="Products" asp-action="Edit" asp-route-id="@Model.Id"
                class="btn btn-warning">Edit</a>

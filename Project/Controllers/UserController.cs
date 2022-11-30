@@ -11,6 +11,8 @@ namespace Project.Controllers
     [Authorize]
     public class UserController : Controller
     {
+        private IHttpContextAccessor _contextAccessor;
+
         private readonly UserManager<User> userManager;
 
         private readonly SignInManager<User> signInManager;
@@ -98,7 +100,7 @@ namespace Project.Controllers
 
             if (user != null)
             {
-                var result = await signInManager.PasswordSignInAsync(user,model.Password, false, false);
+                var result = await signInManager.PasswordSignInAsync(user,model.Password, isPersistent: true, lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {
@@ -118,6 +120,23 @@ namespace Project.Controllers
             return RedirectToAction("Index","Home");
         }
 
-        
+        [HttpPost]
+        [Authorize]
+
+        public async Task<IActionResult> AddToCart(int productId)
+        {
+            await service.AddToCartAsync(productId);
+            return RedirectToAction(nameof(Cart));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Cart()
+        {
+            var products = await service.GetCartProducts();
+
+            return View(products);
+        }
+
     }
 }

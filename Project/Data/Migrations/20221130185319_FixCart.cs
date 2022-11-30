@@ -1,10 +1,10 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
 #nullable disable
 
 namespace Project.Data.Migrations
 {
-using Microsoft.EntityFrameworkCore.Migrations;
-    public partial class FixUserCollections : Migration
+    public partial class FixCart : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
