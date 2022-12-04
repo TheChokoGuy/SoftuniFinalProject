@@ -1,47 +1,42 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+﻿using Newtonsoft.Json;
 using Project.Data;
 using Project.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Project.Models;
 
-namespace Project.Services
+namespace Project.Services.Liked
 {
-    public class CartService : ICartService
+    public class LikedService : ILikedService
     {
         private readonly ApplicationDbContext context;
-
-        public CartService(ApplicationDbContext context)
+        public LikedService(ApplicationDbContext context)
         {
             this.context = context;
-
         }
-        public async Task<string> AddToCartAsync(string cookie, int productId)
-        {
-            List<int> listCart = JsonConvert.DeserializeObject<List<int>>(cookie);
 
-            if(!listCart.Contains(productId))
+        public async Task<string> AddToLikedAsync(string cookie, int productId)
+        {
+            List<int> listLiked = JsonConvert.DeserializeObject<List<int>>(cookie);
+
+            if (!listLiked.Contains(productId))
             {
-                listCart.Add(productId);
+                listLiked.Add(productId);
             }
 
-            string jsonCart = JsonConvert.SerializeObject(listCart);
+            string jsonLiked = JsonConvert.SerializeObject(listLiked);
 
-            return jsonCart;
-
+            return jsonLiked;
         }
 
-        public async Task<IEnumerable<ProductViewModel>> GetCartProducts(string cookie)
+        public async Task<IEnumerable<ProductViewModel>> GetLikedAsync(string cookie)
         {
-            if (cookie == null)
+            if(cookie == null)
                 return new List<ProductViewModel>();
 
-            List<int> listCart = JsonConvert.DeserializeObject<List<int>>(cookie);
-
+            List<int>? listLiked = JsonConvert.DeserializeObject<List<int>>(cookie);
+            
             List<Item> items = new List<Item>();
 
-            foreach (var item in listCart)
+            foreach (var item in listLiked)
             {
                 items.Add(await context.Items.FindAsync(item));
             }
@@ -62,7 +57,7 @@ namespace Project.Services
                     Category = cateogry.Name,
                     ImageUrl = item.ImageUrl,
                     Price = item.Price
-                }); 
+                });
             }
 
             return models;

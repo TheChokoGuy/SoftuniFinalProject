@@ -6,7 +6,7 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {   <li class="nav-item">
-        <a  class="nav-link text-dark" asp-action="Liked" asp-controller="Cart" title="Manage"><img src="~/heart.png" width="20px"/></a>
+        <a  class="nav-link text-dark" asp-action="Liked" asp-controller="Liked" title="Manage"><img src="~/heart.png" width="20px"/></a>
         </li>
         <li class="nav-item">
         <a  class="nav-link text-dark" asp-action="Cart" asp-controller="Cart" title="Manage"><img src="~/shopping-cart.png" width="20px"/></a>

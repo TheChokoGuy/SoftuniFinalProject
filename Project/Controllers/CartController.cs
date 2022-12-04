@@ -54,7 +54,7 @@ namespace Project.Controllers
             string cookie = Request.Cookies["Cart"];
 
             CookieOptions option = new CookieOptions();
-
+            option.IsEssential = true;
             option.Expires = DateTime.Now.AddDays(7);
 
             if (cookie == null)

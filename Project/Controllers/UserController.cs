@@ -112,8 +112,8 @@ namespace Project.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            HttpContext.Session.Clear();
-
+            Response.Cookies.Delete("Cart");
+            Response.Cookies.Delete("Liked");
             return RedirectToAction("Index","Home");
         }
 

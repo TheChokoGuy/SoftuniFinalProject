@@ -7,6 +7,7 @@ using Project.ModelBinders;
 using Project.Services;
 using Project.Services.Banner;
 using Project.Services.Home;
+using Project.Services.Liked;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,15 +35,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IBannerService, BannerService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ILikedService, LikedService>();
 builder.Services.AddTransient<IHomeService, HomeService>();
-
-
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromDays(7);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
 
 var app = builder.Build();
 
@@ -66,7 +60,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
