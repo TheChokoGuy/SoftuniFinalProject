@@ -6,8 +6,8 @@ namespace Project.Services
 {
     public interface ICartService
     {
-        public Task AddToCartAsync(int productId);
+        public Task<string> AddToCartAsync(string cookie,int productId);
 
-        public Task<IEnumerable<ProductViewModel>> GetCartProducts();
+        public Task<IEnumerable<ProductViewModel>> GetCartProducts(string cookie);
     }
 }

@@ -20,43 +20,25 @@ namespace Project.Services
             _httpContextAccessor = httpContextAccessor;
 
         }
-        public async Task AddToCartAsync(int productId)
+        public async Task<string> AddToCartAsync(string cookie, int productId)
         {
-            var cart = new List<int>();
-
-            var jsonCart = JsonConvert.SerializeObject(cart);
-
-            if (_session.Get("Cart") == null)
-            {
-                _session.SetString("Cart", jsonCart);
-            }
-
-            var sessionCart = _session.GetString("Cart");
-
-            List<int> listCart = JsonConvert.DeserializeObject<List<int>>(sessionCart);
+            List<int> listCart = JsonConvert.DeserializeObject<List<int>>(cookie);
 
             if(!listCart.Contains(productId))
             {
                 listCart.Add(productId);
             }
 
-            jsonCart = JsonConvert.SerializeObject(listCart);
-            _session.SetString("Cart", jsonCart);
+            string jsonCart = JsonConvert.SerializeObject(listCart);
+
+            return jsonCart;
 
         }
 
-        public async Task<IEnumerable<ProductViewModel>> GetCartProducts()
+        public async Task<IEnumerable<ProductViewModel>> GetCartProducts(string cookie)
         {
-            var cart = new List<int>();
 
-            var jsonCart = JsonConvert.SerializeObject(cart);
-
-            if (_session.Get("Cart") == null)
-            {
-                _session.SetString("Cart", jsonCart);
-            }
-
-            List<int> listCart = JsonConvert.DeserializeObject<List<int>>(_session.GetString("Cart"));
+            List<int> listCart = JsonConvert.DeserializeObject<List<int>>(cookie);
 
             List<Item> items = new List<Item>();
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Project.Services;
 
 namespace Project.Controllers
@@ -18,7 +19,31 @@ namespace Project.Controllers
         [Authorize]
         public async Task<IActionResult> AddToCart(int productId)
         {
-            await service.AddToCartAsync(productId);
+            string cookie = Request.Cookies["Cart"];
+
+            CookieOptions option = new CookieOptions();
+
+            option.Expires = DateTime.Now.AddDays(7);
+
+            if (cookie == null)
+            {
+                var cart = new List<int>();
+
+                cart.Add(productId);
+
+                var jsonCart = JsonConvert.SerializeObject(cart);
+
+               
+                Response.Cookies.Append("Cart", jsonCart, option);
+
+
+            }
+            else
+            {
+                string newCookie = await service.AddToCartAsync(cookie, productId);
+                Response.Cookies.Append("Cart", newCookie, option);
+            }
+
             return RedirectToAction(nameof(Cart));
         }
 
@@ -26,7 +51,23 @@ namespace Project.Controllers
         [Authorize]
         public async Task<IActionResult> Cart()
         {
-            var products = await service.GetCartProducts();
+            string cookie = Request.Cookies["Cart"];
+
+            CookieOptions option = new CookieOptions();
+
+            option.Expires = DateTime.Now.AddDays(7);
+
+            if (cookie == null)
+            {
+                var cart = new List<int>();
+
+                var jsonCart = JsonConvert.SerializeObject(cart);
+
+
+                Response.Cookies.Append("Cart", jsonCart, option);
+            }
+
+            var products = await service.GetCartProducts(cookie);
 
             return View(products);
         }
