@@ -14,7 +14,7 @@ namespace Project.Services
         Task<Item> GetForEditAsync(int productId);
 
         Task EditProductAsync(Item model);
-        Task<List<Item>> GetProductByStringAsync(string text);
+        Task<IEnumerable<ProductViewModel>> GetProductByStringAsync(string text);
 
         Task<Item> GetProductAsync(int productId);
     }

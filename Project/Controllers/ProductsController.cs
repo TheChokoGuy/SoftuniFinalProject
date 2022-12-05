@@ -93,11 +93,11 @@ namespace Project.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(string text)
+        public async Task<IActionResult> Search(string searchString)
         {
-            if (!String.IsNullOrEmpty(text))
+            if (!String.IsNullOrEmpty(searchString))
             {
-                var products = await service.GetProductByStringAsync(text);
+                var products = await service.GetProductByStringAsync(searchString);
                 return View(products);
             }
 

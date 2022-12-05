@@ -7,7 +7,7 @@
         <h5 class="card-title mt-1">@Model.Name</h5>
         <div>
                <form class="input-group-sm" asp-controller="Liked" asp-action="Delete" asp-route-productId="@Model.Id">
-                    <input type="submit" value="Delete" class="btn btn-danger" />
+                   <button class="btn btn-outline-none m-0 p-0 mb-1" type="submit"><img class="m-0 p-0" src="~/bin.png" width="24px"></img></button>
             </form> 
         </div>
     </div>

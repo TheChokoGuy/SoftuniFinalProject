@@ -105,9 +105,20 @@ namespace Project.Services
             return product;
         }
 
-        public async Task<List<Item>> GetProductByStringAsync(string text)
+        public async Task<IEnumerable<ProductViewModel>> GetProductByStringAsync(string text)
         {
-            return await context.Items.Where(s => s.Name!.Contains(text)).ToListAsync();
+            var items = await context.Items.Where(s => s.Name!.Contains(text)).Select(i => new ProductViewModel
+            {
+                Name = i.Name,
+                Description = i.Description,
+                AvailableProducts = i.AvailableProducts,
+                Category = i.Category.Name,
+                ImageUrl = i.ImageUrl,
+                Id = i.Id,
+                Price = i.Price,
+            }).ToListAsync();
+
+            return items;
         }
     }
 }
