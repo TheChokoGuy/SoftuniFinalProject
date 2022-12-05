@@ -91,5 +91,17 @@ namespace Project.Controllers
 
             return View(product);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string text)
+        {
+            if (!String.IsNullOrEmpty(text))
+            {
+                var products = await service.GetProductByStringAsync(text);
+                return View(products);
+            }
+
+            return RedirectToAction(nameof(All));
+        }
     }
 }

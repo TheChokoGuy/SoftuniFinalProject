@@ -2,35 +2,26 @@
 
 @{
     ViewData["Title"] = "Home Page";
-    var products = Model.ToList();
+    var houses = Model.ToList();
 }
-
-<div class="">
-    <div class="">
-        @for (int i = 0; i < products.Count(); i++)
+<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+        @for (int i = 0; i < houses.Count(); i++)
         {
-            var product = products[i];
-            <a class="" asp-controller="Products" asp-action="Product"
-                            asp-route-productId="2">
-            <div class="">
-                <img class="img-fluid" style="width: 90vw"
-                    src="@product.ImageUrl" alt="@product.Title">
-                <div class="">
-                    <h5>
-                        
-                    </h5>
-                </div>
-            </div>
-
-            </a>
+            
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="@i" class="active" aria-current="true" aria-label="Slide 1"></button>
         }
+  </div>
+  <div class="carousel-inner">
+            @for (int i = 0; i < houses.Count(); i++)
+        {
+            var house = houses[i];
+            <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
+                <img class="d-block w-100" style="height:500px"
+                    src="@house.ImageUrl" alt="@house.Title">
+            </div>
+        }
+
     </div>
-    <button class="" type="button" data-bs-target="" data-bs-slide="prev">
-        <span class="" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="" type="button" data-bs-target="" data-bs-slide="next">
-        <span class="" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
+  </div>
 </div>

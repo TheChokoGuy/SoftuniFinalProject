@@ -71,5 +71,23 @@ namespace Project.Controllers
 
             return View(products);
         }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Delete(int productId)
+        {
+            string cookie = Request.Cookies["Cart"];
+            List<int> list = JsonConvert.DeserializeObject<List<int>>(cookie);
+            CookieOptions option = new CookieOptions();
+            option.IsEssential = true;
+            option.Expires = DateTime.Now.AddDays(7);
+            list.Remove(productId);
+
+            cookie = JsonConvert.SerializeObject(list);
+
+            Response.Cookies.Append("Cart", cookie, option);
+
+            return RedirectToAction(nameof(Cart));
+        }
     }
 }

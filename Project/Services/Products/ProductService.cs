@@ -104,5 +104,10 @@ namespace Project.Services
 
             return product;
         }
+
+        public async Task<List<Item>> GetProductByStringAsync(string text)
+        {
+            return await context.Items.Where(s => s.Name!.Contains(text)).ToListAsync();
+        }
     }
 }

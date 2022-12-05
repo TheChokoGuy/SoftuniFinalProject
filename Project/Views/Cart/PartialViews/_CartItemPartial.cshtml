@@ -1,0 +1,16 @@
+﻿@model ProductViewModel
+@using Project.Data.Models
+
+<div class="d-flex" style="width: 70%; ">
+    <a asp-controller="Products" asp-action="Product" asp-route-productId="@Model.Id"></><img class="card-img-top" style="width: 9rem;" src="@Model.ImageUrl" alt="Product Image"></a>
+    <div class="card-body">
+        <h3 class="text-start fw-lighter">@Model.Name</h3>
+    </div>
+    <div>
+        <h3 class="text-danger">@Model.Price</h3>
+            <form class="input-group-sm" asp-controller="Cart" asp-action="Delete" asp-route-productId="@Model.Id">
+                    <img src="~/bin.png" width="26px" />
+                    <input type="submit" value="Delete" class=" mt-1" />
+            </form> 
+    </div>
+</div>

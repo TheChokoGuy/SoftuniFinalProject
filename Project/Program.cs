@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Data.Models;
@@ -24,7 +25,10 @@ builder.Services.AddDefaultIdentity<User>(options => {
    })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+});
 builder.Services.AddMvc(config => config.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider()));
 builder.Services.ConfigureApplicationCookie(options =>
 {
