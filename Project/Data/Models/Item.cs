@@ -20,7 +20,6 @@ namespace Project.Data.Models
         public string ImageUrl { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 
         [Required]

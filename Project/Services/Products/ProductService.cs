@@ -34,7 +34,7 @@ namespace Project.Services
 
         public async Task DeleteAsync(int productId)
         {
-            var product = await context.Items.FirstOrDefaultAsync(p => p.Id == 1);
+            var product = await context.Items.FirstOrDefaultAsync(p => p.Id == productId);
 
             context.Items.Remove(product);
 

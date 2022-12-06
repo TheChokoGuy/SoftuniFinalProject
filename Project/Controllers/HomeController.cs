@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project.Areas.Admin;
 using Project.Models;
 using Project.Services.Home;
 using System.Diagnostics;
@@ -16,6 +17,10 @@ namespace Project.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (User.IsInRole(AdminConstants.AdminRoleName))
+            {
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
             return View(await service.GetHomeProductsAsync());
         }
 
