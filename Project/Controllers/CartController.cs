@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Project.Data.Models;
 using Project.Services;
 
 namespace Project.Controllers
@@ -88,6 +89,31 @@ namespace Project.Controllers
             Response.Cookies.Append("Cart", cookie, option);
 
             return RedirectToAction(nameof(Cart));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Information()
+        {
+            string cookie = Request.Cookies["Cart"];
+
+            CookieOptions option = new CookieOptions();
+            option.IsEssential = true;
+            option.Expires = DateTime.Now.AddDays(7);
+
+            if (cookie == null)
+            {
+                var cart = new List<int>();
+
+                var jsonCart = JsonConvert.SerializeObject(cart);
+
+
+                Response.Cookies.Append("Cart", jsonCart, option);
+            }
+
+            var products = await service.GetCartProducts(cookie);
+
+            return View(new UserInformation());
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Data.Models;
 using Project.Models;
 using Project.Services;
+using System.Reflection.Metadata;
 using System.Security.Claims;
 
 namespace Project.Controllers
@@ -13,16 +14,18 @@ namespace Project.Controllers
     {
 
         private readonly UserManager<User> userManager;
-
+        private readonly IHttpContextAccessor contextAccessor;
         private readonly SignInManager<User> signInManager;
 
 
         public UserController(
             UserManager<User> _userManager,
-            SignInManager<User> _signInManager)
+            SignInManager<User> _signInManager,
+            IHttpContextAccessor _contextAccessor)
         {
             userManager = _userManager;
             signInManager = _signInManager;
+            contextAccessor = _contextAccessor;
         }
 
         [HttpGet]
@@ -115,6 +118,19 @@ namespace Project.Controllers
             Response.Cookies.Delete("Cart");
             Response.Cookies.Delete("Liked");
             return RedirectToAction("Index","Home");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> SaveAddress(UserInformation info)
+        {
+            User user = await userManager.GetUserAsync(HttpContext.User);
+            if(user.Addresses == null)
+            {
+                user.Addresses = new List<UserInformation>();
+            }
+            user.Addresses.Add(info);
+            return RedirectToAction("Cart", "Cart");
         }
 
         
