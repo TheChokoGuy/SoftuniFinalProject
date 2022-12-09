@@ -33,7 +33,6 @@ builder.Services.AddMvc(config => config.ModelBinderProviders.Insert(0, new Deci
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/User/Login";
-    options.LogoutPath = "/Users/Logout";
 
 });
 builder.Services.AddScoped<IProductService, ProductService>();
