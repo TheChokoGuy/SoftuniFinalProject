@@ -18,7 +18,7 @@ namespace Project.Controllers
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            var products = await service.GetAllAsync();
+            var products = await service.GetAllAsync("Default");
             return View(products);
         }
 
@@ -102,6 +102,13 @@ namespace Project.Controllers
             }
 
             return RedirectToAction(nameof(All));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllSorted(string type)
+        {
+            var products = await service.GetAllAsync(type);
+            return View(products);
         }
     }
 }

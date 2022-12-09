@@ -18,6 +18,7 @@
         <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Newest" class="dropdown-item">Newest</a></li>
         <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Oldest" class="dropdown-item">Oldest</a></li>
     </ul>
+
 </div>
 <div class="dropdown ms-2">
     <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -34,6 +35,6 @@
 <div class="text-center row m-2">
     @foreach (var product in Model)
     {
-        <partial name="/Views/Products/PartialViews/_ProductPartial.cshtml" model="product"/>
+            <partial name="/Views/Products/PartialViews/_ProductPartial.cshtml" model="product"/>
     }
 </div>

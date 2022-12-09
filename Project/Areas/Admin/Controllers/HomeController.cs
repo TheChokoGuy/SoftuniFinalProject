@@ -4,7 +4,7 @@ namespace Project.Areas.Admin.Controllers
 {
     public class HomeController : AdminController
     {
-        [HttpGet("/")]
+        [HttpGet("/Index")]
         public IActionResult Index() => View();
     }
 }

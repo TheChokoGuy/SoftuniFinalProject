@@ -8,7 +8,7 @@ namespace Project.Services
         Task AddProductAsync(AddProductViewModel model);
         Task<IEnumerable<Category>> GetCategoriesAsync();
 
-        Task<IEnumerable<ProductViewModel>> GetAllAsync();
+        Task<IEnumerable<ProductViewModel>> GetAllAsync(string type);
         Task DeleteAsync(int productId);
 
         Task<Item> GetForEditAsync(int productId);

@@ -44,12 +44,51 @@ namespace Project.Services
 
         
 
-        public async Task<IEnumerable<ProductViewModel>> GetAllAsync()
+        public async Task<IEnumerable<ProductViewModel>> GetAllAsync(string type)
         {
-            var entities = await context.Items
-                .Include(m => m.Category)
-                .ToListAsync();
+            var entities = new List<Item>();
 
+            if(type == "Default")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .ToListAsync();
+            }
+            else if(type == "Alphabetically")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .OrderBy(m => m.Name)
+                    .ToListAsync();
+            }
+            else if (type == "Newest")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .OrderByDescending(m => m.Id)
+                    .ToListAsync();
+            }
+            else if (type == "Oldest")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .OrderBy(m => m.Id)
+                    .ToListAsync();
+            }
+            else if (type == "Expensive")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .OrderByDescending(m => m.Price)
+                    .ToListAsync();
+            }
+            else if (type == "Cheaper")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .OrderBy(m => m.Price)
+                    .ToListAsync();
+            }
             var products = entities
                 .Select(p => new ProductViewModel()
                 {

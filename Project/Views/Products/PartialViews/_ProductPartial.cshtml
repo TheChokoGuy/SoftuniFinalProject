@@ -8,14 +8,18 @@
     <a asp-controller="Products" asp-action="Product" asp-route-productId="@Model.Id"></><img class="card-img-top" style="width: 18rem;" src="@Model.ImageUrl" alt="Product Image"></a>
     <div class="card-body">
         <h5 class="card-title mt-1">@Model.Name</h5>
-        <div class="d-flex" style="width: 100%;">
-            @if(SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "Admin"))
+        <div class="d-flex justify-content-evenly" style="width: 100%;">
+            @if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "Admin"))
             {
-               <a asp-controller="Products" asp-action="Edit" asp-route-id="@Model.Id"
+                <a asp-controller="Products" asp-action="Edit" asp-route-id="@Model.Id"
               class=""><img class="m-0 p-0" src="~/pen.png" width="35px"/></a>
+            }
+            <h2 class="fw-light text-danger">@Model.Price</h2>
 
+            @if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "Admin"))
+            {
                 <form class="input-group-sm" asp-controller="Products" asp-action="Delete" asp-route-productId="@Model.Id">
-                    <button style="margin-left: 550%;" class="btn btn-outline-none p-0" type="submit"><img class="m-0 p-0" src="~/bin.png" width="35px"/></button>
+                    <button style="margin-left: 550%;" class="btn btn-outline-none m-0 p-0" type="submit"><img class="m-0 p-0" src="~/bin.png" width="35px"/></button>
                 </form>
 
             }

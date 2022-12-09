@@ -5,9 +5,10 @@
     <a asp-controller="Products" asp-action="Product" asp-route-productId="@Model.Id"></><img class="card-img-top" style="width: 18rem;" src="@Model.ImageUrl" alt="Product Image"></a>
     <div class="card-body">
         <h5 class="card-title mt-1">@Model.Name</h5>
-        <div>
-               <form class="input-group-sm" asp-controller="Liked" asp-action="Delete" asp-route-productId="@Model.Id">
-                   <button class="btn btn-outline-none m-0 p-0 mb-1" type="submit"><img class="m-0 p-0" src="~/bin.png" width="24px"></img></button>
+        <div class="d-flex justify-content-center">
+            <h2 class="fw-light text-danger">@Model.Price</h2>
+            <form class="input-group-sm" asp-controller="Liked" asp-action="Delete" asp-route-productId="@Model.Id">
+                   <button class="btn btn-outline-none m-0 p-0 mb-1" type="submit"><img class="m-0 p-0" src="~/bin.png" width="34px"></img></button>
             </form> 
         </div>
     </div>
