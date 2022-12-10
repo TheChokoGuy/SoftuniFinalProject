@@ -8,29 +8,42 @@
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 <div class="d-flex">
-<div class="dropdown">
-    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-        Order By
-    </a>
+    <div class="dropdown">
+        <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            Order By
+        </a>
 
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Alphabetically" class="dropdown-item">Alphabetically</a></li>
-        <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Newest" class="dropdown-item">Newest</a></li>
-        <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Oldest" class="dropdown-item">Oldest</a></li>
-    </ul>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Alphabetically" class="dropdown-item">Alphabetically</a></li>
+            <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Newest" class="dropdown-item">Newest</a></li>
+            <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Oldest" class="dropdown-item">Oldest</a></li>
+            <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Available" class="dropdown-item">Oldest</a></li>
+        </ul>
+    </div>
+    <div class="dropdown ms-2">
+        <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            Price
+        </a>
 
-</div>
-<div class="dropdown ms-2">
-    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-        Price
-    </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Expensive" class="dropdown-item">Expensive</a></li>
+            <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Cheaper" class="dropdown-item">Cheaper</a></li>
+        </ul>
 
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Expensive" class="dropdown-item">Expensive</a></li>
-        <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Cheaper" class="dropdown-item">Cheaper</a></li>
-    </ul>
+    </div>
+    <div class="dropdown">
+        <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            Category
+        </a>
 
-</div>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Dress" class="dropdown-item">Dress</a></li>
+            <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Skirt" class="dropdown-item">Skirt</a></li>
+            <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="T-Shirt" class="dropdown-item">T-Shirt</a></li>
+            <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Jeans" class="dropdown-item">Jeans</a></li>
+            <li><a asp-action="AllSorted" asp-controller="Products" asp-route-type="Shoes" class="dropdown-item">Shoes</a></li>
+        </ul>
+    </div>
 </div>
 <div class="text-center row m-2">
     @foreach (var product in Model)

@@ -89,6 +89,48 @@ namespace Project.Services
                     .OrderBy(m => m.Price)
                     .ToListAsync();
             }
+            else if (type == "Available")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .Where(m => m.AvailableProducts > 0)
+                    .ToListAsync();
+            }
+            else if (type == "Shoes")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .Where(m => m.Category.Name == "Shoes")
+                    .ToListAsync();
+            }
+            else if (type == "Jeans")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .Where(m => m.Category.Name == "Jeans")
+                    .ToListAsync();
+            }
+            else if (type == "T-Shirt")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .Where(m => m.Category.Name == "T-Shirt")
+                    .ToListAsync();
+            }
+            else if (type == "Skirt")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .Where(m => m.Category.Name == "Skirt")
+                    .ToListAsync();
+            }
+            else if (type == "Dress")
+            {
+                entities = await context.Items
+                    .Include(m => m.Category)
+                    .Where(m => m.Category.Name == "Dress")
+                    .ToListAsync();
+            }
             var products = entities
                 .Select(p => new ProductViewModel()
                 {
