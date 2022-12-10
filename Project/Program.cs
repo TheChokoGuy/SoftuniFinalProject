@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
+using Project.Data.Common;
 using Project.Data.Models;
 using Project.ModelBinders;
 using Project.Services;
@@ -40,7 +41,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IBannerService, BannerService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ILikedService, LikedService>();
-builder.Services.AddTransient<IHomeService, HomeService>();
+builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<IHomeService, HomeService>();
 
 var app = builder.Build();
 

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project.Areas.Admin;
+using Project.Data;
+using Project.Data.Common;
 using Project.Models;
 using Project.Services.Home;
 using System.Diagnostics;
@@ -10,9 +12,9 @@ namespace Project.Controllers
     {
         private readonly IHomeService service;
 
-        public HomeController(IHomeService service)
+        public HomeController(IHomeService _service)
         {
-            this.service = service;
+            this.service = _service;
         }
 
         public async Task<IActionResult> Index()

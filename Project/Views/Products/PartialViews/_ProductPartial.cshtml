@@ -5,7 +5,7 @@
 @inject UserManager<User> UserManager
 
 <div class="col-4" style="width: 20rem; ">
-    <a asp-controller="Products" asp-action="Product" asp-route-productId="@Model.Id"></><img class="card-img-top" style="min-width: 18rem;" src="@Model.ImageUrl" alt="Product Image"></a>
+    <a asp-controller="Products" asp-action="Product" asp-route-productId="@Model.Id"></><img class="card-img-top" style="width: 18rem;" src="@Model.ImageUrl" alt="Product Image"></a>
     <div class="card-body">
         <h5 class="card-title mt-1">@Model.Name</h5>
         <div class="d-flex justify-content-evenly" style="width: 100%;">

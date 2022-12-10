@@ -1,22 +1,29 @@
 ﻿namespace Project.Services.Home
 {
+    using Microsoft.EntityFrameworkCore;
     using Project.Data;
+    using Project.Data.Common;
     using Project.Data.Models;
     using Project.Models;
 
     public class HomeService : IHomeService
     {
-        private readonly ApplicationDbContext context;
+        private readonly IRepository repo;
 
-        public HomeService(ApplicationDbContext context)
+        public HomeService(IRepository _repo)
         {
-            this.context = context;
+            this.repo = _repo;
         }
 
 
         public async Task<IEnumerable<Banner>> GetHomeProductsAsync()
         {
-            return this.context.Banners.OrderByDescending(i => i.Id).Take(5);
+            List<Banner> result = await repo.AllReadonly<Banner>()
+                .OrderByDescending(h => h.Id)
+                .Take(5)
+                .ToListAsync();
+
+            return result;
         }
     }
 }
