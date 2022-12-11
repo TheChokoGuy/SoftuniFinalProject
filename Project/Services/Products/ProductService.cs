@@ -35,9 +35,7 @@ namespace Project.Services
 
         public async Task DeleteAsync(int productId)
         {
-            var product = await repo.GetByIdAsync<Item>(productId);
-
-            await repo.DeleteAsync<Item>(product);
+            await repo.DeleteAsync<Item>(productId);
 
             await repo.SaveChangesAsync();  
 
@@ -183,7 +181,7 @@ namespace Project.Services
         public async Task<Item> GetProductAsync(int productId)
         {
             Item product = await repo.GetByIdAsync<Item>(productId);
-
+            product.Category = await repo.GetByIdAsync<Category>(product.CategoryId);
             return product;
         }
 
