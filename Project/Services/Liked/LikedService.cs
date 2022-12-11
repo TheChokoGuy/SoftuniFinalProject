@@ -33,7 +33,7 @@ namespace Project.Services.Liked
             if(cookie == null)
                 return new List<ProductViewModel>();
 
-            List<int>? listLiked = JsonConvert.DeserializeObject<List<int>>(cookie);
+            List<int> listLiked = JsonConvert.DeserializeObject<List<int>>(cookie);
             
             List<Item> items = new List<Item>();
 
@@ -55,6 +55,7 @@ namespace Project.Services.Liked
                     Name = item.Name,
                     Description = item.Description,
                     AvailableProducts = item.AvailableProducts,
+                    CategoryId = item.CategoryId,
                     Category = cateogry.Name,
                     ImageUrl = item.ImageUrl,
                     Price = item.Price
