@@ -8,6 +8,6 @@ namespace Project.Services
     {
         public Task<string> AddToCartAsync(string cookie,int productId);
 
-        public Task<IEnumerable<ProductViewModel>> GetCartProducts(string cookie);
+        public Task<IEnumerable<CartProductViewModel>> GetCartProducts(string cookie);
     }
 }

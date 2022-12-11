@@ -20,11 +20,11 @@ namespace Project.Services
         }
         public async Task<string> AddToCartAsync(string cookie, int productId)
         {
-            List<int> listCart = JsonConvert.DeserializeObject<List<int>>(cookie);
+            Dictionary<int, int> listCart = JsonConvert.DeserializeObject<Dictionary<int, int>>(cookie);
 
-            if(!listCart.Contains(productId))
+            if(!listCart.ContainsKey(productId))
             {
-                listCart.Add(productId);
+                listCart.Add(productId, 1);
             }
 
             string jsonCart = JsonConvert.SerializeObject(listCart);
@@ -33,36 +33,32 @@ namespace Project.Services
 
         }
 
-        public async Task<IEnumerable<ProductViewModel>> GetCartProducts(string cookie)
+        public async Task<IEnumerable<CartProductViewModel>> GetCartProducts(string cookie)
         {
             if (cookie == null)
-                return new List<ProductViewModel>();
+                return new List<CartProductViewModel>();
 
-            List<int> listCart = JsonConvert.DeserializeObject<List<int>>(cookie);
+            Dictionary<int, int> listCart = JsonConvert.DeserializeObject<Dictionary<int, int>>(cookie);
 
             List<Item> items = new List<Item>();
 
             foreach (var item in listCart)
             {
-                items.Add(await repo.GetByIdAsync<Item>(item));
+                items.Add(await repo.GetByIdAsync<Item>(item.Key));
             }
 
-            List<ProductViewModel> models = new List<ProductViewModel>();
+            List<CartProductViewModel> models = new List<CartProductViewModel>();
 
 
             foreach (var item in items)
             {
-                Category cateogry = await repo.GetByIdAsync<Category>(item.CategoryId);
-
-                models.Add(new ProductViewModel()
+                models.Add(new CartProductViewModel()
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    Description = item.Description,
-                    AvailableProducts = item.AvailableProducts,
-                    Category = cateogry.Name,
                     ImageUrl = item.ImageUrl,
-                    Price = item.Price
+                    Price = item.Price,
+                    Quantity = listCart.FirstOrDefault(c => c.Key == item.Id).Value
                 }); 
             }
 

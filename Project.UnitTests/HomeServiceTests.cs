@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using MockQueryable.Moq;
 using Moq;
 using Project.Data;
 using Project.Data.Common;
@@ -38,10 +39,10 @@ namespace Project.UnitTests
         }
 
         [Test]
-        public async Task TestGetHomeProductsNumberAndOrder()
+        public async Task TestGetHomeProductsNumber()
         {
             var repoMock = new Mock<IRepository>();
-            IQueryable<Banner> banners = new List<Banner>()
+            List<Banner> banners = new List<Banner>()
             {
                 new Banner() { Id = 1, Title="", ImageUrl="" },
                 new Banner() { Id = 3, Title="", ImageUrl="" },
@@ -49,10 +50,10 @@ namespace Project.UnitTests
                 new Banner() { Id = 7, Title="", ImageUrl="" },
                 new Banner() { Id = 9, Title="", ImageUrl="" },
                 new Banner() { Id = 2, Title="", ImageUrl="" }
-            }.AsQueryable();
+            };
 
             repoMock.Setup(r => r.AllReadonly<Banner>())
-                .Returns(banners);
+                .Returns(banners.AsQueryable().BuildMock());
 
             repo = repoMock.Object;
 
@@ -61,6 +62,8 @@ namespace Project.UnitTests
             var bannerCollection = await service.GetHomeProductsAsync();
 
             Assert.AreEqual(5, bannerCollection.Count());
+
+
         }
 
         [TearDown]
