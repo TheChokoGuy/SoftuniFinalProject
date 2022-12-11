@@ -302,11 +302,11 @@ namespace Project.UnitTests
                 new Item()
                 {
                     Id = 2,
-                    AvailableProducts = 5,
+                    AvailableProducts = 0,
                     Description = "Red",
                     ImageUrl = "yes",
                     Name = "Af",
-                    Price = (decimal)74.99,
+                    Price = (decimal)54.99,
                     Category = new Category()
                     {
                         Id = 2,
@@ -323,12 +323,37 @@ namespace Project.UnitTests
             var repo = repoMock.Object;
             service = new ProductService(repo);
 
-            IEnumerable<ProductViewModel> allItems = await service.GetAllAsync("Default");
-            IEnumerable<ProductViewModel> skirtItems = await service.GetAllAsync("Skirt");
+            IEnumerable<ProductViewModel> allItems = await service.GetAllAsync("Default"); //
+            IEnumerable<ProductViewModel> alphabetically = await service.GetAllAsync("Alphabetically");
+            List<ProductViewModel> newest = service.GetAllAsync("Newest").Result.ToList(); //
+            List<ProductViewModel> oldest = service.GetAllAsync("Oldest").Result.ToList(); //
+            List<ProductViewModel> expensive = service.GetAllAsync("Expensive").Result.ToList(); //
+            List<ProductViewModel> cheaper = service.GetAllAsync("Cheaper").Result.ToList(); //
+            IEnumerable<ProductViewModel> available = await service.GetAllAsync("Available"); //
+            List<ProductViewModel> skirts = service.GetAllAsync("Skirt").Result.ToList(); //
+            IEnumerable<ProductViewModel> dress = await service.GetAllAsync("Dress"); //
 
-            if(allItems.Any(p => p.Id == 1) == true && allItems.Any(p => p.Id == 2) == true && skirtItems.Any(p => p.Id == 2))
+            if(allItems.Any(p => p.Id == 1) == true && allItems.Any(p => p.Id == 2) == true && skirts.Any(p => p.Id == 2))
             {
-                Assert.Pass();
+                if(!available.Any(p => p.Id == 2))
+                {
+                    if(dress.Any(p => p.Id ==1))
+                    {
+                        if (newest[0].Id == 2)
+                        {
+                            if (oldest[0].Id == 1)
+                            {
+                                if (expensive[0].Id == 1)
+                                {
+                                    if (cheaper[0].Id == 2)
+                                    {
+                                        Assert.Pass();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             await repo.SaveChangesAsync();
