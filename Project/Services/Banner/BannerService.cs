@@ -40,12 +40,11 @@ namespace Project.Services.Banner
 
         public async Task<IEnumerable<Data.Models.Banner>> GetAllAsync()
         {
-            List<Data.Models.Banner> entities = await repo.AllReadonly<Data.Models.Banner>().ToListAsync();
+            List<Data.Models.Banner> entities = await repo.AllReadonly<Data.Models.Banner>().Take(5).ToListAsync();
 
             return entities;
         }
-
-        public async Task<Data.Models.Banner> GetForEditAsync(int productId)
+        public async Task<Data.Models.Banner> GetBannerAsync(int productId)
         {
             return await repo.GetByIdAsync<Data.Models.Banner>(productId);
         }

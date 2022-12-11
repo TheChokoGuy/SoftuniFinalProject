@@ -8,7 +8,6 @@ using Project.Data.Models;
 using Project.ModelBinders;
 using Project.Services;
 using Project.Services.Banner;
-using Project.Services.Home;
 using Project.Services.Liked;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,7 +41,6 @@ builder.Services.AddScoped<IBannerService, BannerService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ILikedService, LikedService>();
 builder.Services.AddScoped<IRepository, Repository>();
-builder.Services.AddScoped<IHomeService, HomeService>();
 
 var app = builder.Build();
 

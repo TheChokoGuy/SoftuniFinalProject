@@ -69,7 +69,7 @@ namespace Project.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
-            Banner model = await service.GetForEditAsync(id);
+            Banner model = await service.GetBannerAsync(id);
             return View(model);
         }
 

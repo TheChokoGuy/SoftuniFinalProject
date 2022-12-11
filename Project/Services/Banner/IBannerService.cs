@@ -10,7 +10,7 @@
 
         Task<IEnumerable<Banner> > GetAllAsync();
 
-        Task<Banner> GetForEditAsync(int productId);
+        Task<Banner> GetBannerAsync(int productId);
 
         Task EditBannerAsync(Banner model);
 

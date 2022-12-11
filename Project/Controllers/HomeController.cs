@@ -3,16 +3,16 @@ using Project.Areas.Admin;
 using Project.Data;
 using Project.Data.Common;
 using Project.Models;
-using Project.Services.Home;
+using Project.Services.Banner;
 using System.Diagnostics;
 
 namespace Project.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IHomeService service;
+        private readonly IBannerService service;
 
-        public HomeController(IHomeService _service)
+        public HomeController(IBannerService _service)
         {
             this.service = _service;
         }
@@ -23,7 +23,7 @@ namespace Project.Controllers
             {
                 return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
-            return View(await service.GetHomeProductsAsync());
+            return View(await service.GetAllAsync());
         }
 
 
