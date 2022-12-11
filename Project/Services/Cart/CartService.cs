@@ -20,11 +20,11 @@ namespace Project.Services
         }
         public async Task<string> AddToCartAsync(string cookie, int productId)
         {
-            Dictionary<int, int> listCart = JsonConvert.DeserializeObject<Dictionary<int, int>>(cookie);
+            List<int> listCart = JsonConvert.DeserializeObject<List<int>>(cookie);
 
-            if(!listCart.ContainsKey(productId))
+            if(!listCart.Contains(productId))
             {
-                listCart.Add(productId, 1);
+                listCart.Add(productId);
             }
 
             string jsonCart = JsonConvert.SerializeObject(listCart);
@@ -38,13 +38,13 @@ namespace Project.Services
             if (cookie == null)
                 return new List<CartProductViewModel>();
 
-            Dictionary<int, int> listCart = JsonConvert.DeserializeObject<Dictionary<int, int>>(cookie);
+            List<int> listCart = JsonConvert.DeserializeObject<List<int>>(cookie);
 
             List<Item> items = new List<Item>();
 
             foreach (var item in listCart)
             {
-                items.Add(await repo.GetByIdAsync<Item>(item.Key));
+                items.Add(await repo.GetByIdAsync<Item>(item));
             }
 
             List<CartProductViewModel> models = new List<CartProductViewModel>();
@@ -52,13 +52,17 @@ namespace Project.Services
 
             foreach (var item in items)
             {
+                Category cateogry = await repo.GetByIdAsync<Category>(item.CategoryId);
+
                 models.Add(new CartProductViewModel()
                 {
                     Id = item.Id,
                     Name = item.Name,
                     ImageUrl = item.ImageUrl,
                     Price = item.Price,
-                    Quantity = listCart.FirstOrDefault(c => c.Key == item.Id).Value
+                    Category = cateogry.Name,
+                    CategoryId = item.CategoryId,
+                    Description = item.Description
                 }); 
             }
 

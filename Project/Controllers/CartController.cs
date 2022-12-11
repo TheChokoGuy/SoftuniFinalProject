@@ -28,9 +28,9 @@ namespace Project.Controllers
 
             if (cookie == null)
             {
-                var cart = new Dictionary<int, int>();
+                var cart = new List<int>();
 
-                cart.Add(productId, 1);
+                cart.Add(productId);
 
                 var jsonCart = JsonConvert.SerializeObject(cart);
 
@@ -60,7 +60,7 @@ namespace Project.Controllers
 
             if (cookie == null)
             {
-                var cart = new Dictionary<int, int>();
+                var cart = new List<int>();
 
                 var jsonCart = JsonConvert.SerializeObject(cart);
 
@@ -79,7 +79,7 @@ namespace Project.Controllers
         public IActionResult Delete(int productId)
         {
             string cookie = Request.Cookies["Cart"];
-            Dictionary<int, int> list = JsonConvert.DeserializeObject<Dictionary<int, int>>(cookie);
+            List<int> list = JsonConvert.DeserializeObject<List<int>>(cookie);
             CookieOptions option = new CookieOptions();
             option.IsEssential = true;
             option.Expires = DateTime.Now.AddDays(7);
@@ -104,7 +104,7 @@ namespace Project.Controllers
 
             if (cookie == null)
             {
-                var cart = new Dictionary<int, int>();
+                var cart = new List<int>();
 
                 var jsonCart = JsonConvert.SerializeObject(cart);
 
