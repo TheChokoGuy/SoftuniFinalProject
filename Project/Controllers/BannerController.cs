@@ -17,6 +17,15 @@ namespace Project.Controllers
         [HttpGet]
         [Authorize(Roles = "Admin")]
 
+        public async Task<IActionResult> All()
+        {
+            var products = await service.GetAllAsync();
+            return View(products);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Add()
         {
             var model = new Banner();
@@ -45,6 +54,32 @@ namespace Project.Controllers
 
                 return View(model);
             }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int productId)
+        {
+            await service.DeleteAsync(productId);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            Banner model = await service.GetForEditAsync(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+
+        public async Task<IActionResult> Edit(Banner model)
+        {
+            await service.EditBannerAsync(model);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

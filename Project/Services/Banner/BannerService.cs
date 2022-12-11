@@ -2,6 +2,7 @@
 using Project.Data;
 using System;
 using Project.Data.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace Project.Services.Banner
 {
@@ -20,29 +21,33 @@ namespace Project.Services.Banner
             await repo.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(int productId)
+        public async Task DeleteAsync(int productId)
         {
-            throw new NotImplementedException();
+            await repo.DeleteAsync<Data.Models.Banner>(productId);
+            await repo.SaveChangesAsync();
         }
 
-        public Task EditBannerAsync(Item model)
+        public async Task EditBannerAsync(Data.Models.Banner model)
         {
-            throw new NotImplementedException();
+            var banner = await repo.GetByIdAsync<Data.Models.Banner>(model.Id);
+
+            banner.Id = model.Id;
+            banner.Title= model.Title;
+            banner.ImageUrl= model.ImageUrl;
+
+            await repo.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Data.Models.Banner>> GetAllAsync()
+        public async Task<IEnumerable<Data.Models.Banner>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            List<Data.Models.Banner> entities = await repo.AllReadonly<Data.Models.Banner>().ToListAsync();
+
+            return entities;
         }
 
-        public Task<Item> GetBannerAsync(int productId)
+        public async Task<Data.Models.Banner> GetForEditAsync(int productId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Item> GetForEditAsync(int productId)
-        {
-            throw new NotImplementedException();
+            return await repo.GetByIdAsync<Data.Models.Banner>(productId);
         }
     }
 }

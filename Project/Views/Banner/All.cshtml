@@ -1,0 +1,16 @@
+﻿@model List<Banner>
+
+@{
+    ViewBag.Title = "All Banners";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="text-center row align-content-center">
+    @foreach (var product in Model)
+    {
+        <partial name="/Views/Banner/PartialViews/_BannerPartial.cshtml" model="product" />
+    }
+</div>

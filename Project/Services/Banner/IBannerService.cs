@@ -6,13 +6,13 @@
     {
         Task AddBannerAsync(Banner model);
 
-        Task<IEnumerable<Banner>> GetAllAsync();
         Task DeleteAsync(int productId);
 
-        Task<Item> GetForEditAsync(int productId);
+        Task<IEnumerable<Banner> > GetAllAsync();
 
-        Task EditBannerAsync(Item model);
+        Task<Banner> GetForEditAsync(int productId);
 
-        Task<Item> GetBannerAsync(int productId);
+        Task EditBannerAsync(Banner model);
+
     }
 }

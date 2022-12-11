@@ -13,5 +13,6 @@ namespace Project.Data.Models
 
         [Required]
         public string ImageUrl { get; set; }
+
     }
 }
