@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project.Data;
+using Project.Data.Common;
 using Project.Data.Models;
 using Project.Models;
 
@@ -7,11 +8,11 @@ namespace Project.Services
 {
     public class ProductService : IProductService
     {
-        private readonly ApplicationDbContext context;
+        private readonly IRepository repo;
 
-        public ProductService(ApplicationDbContext context)
+        public ProductService(IRepository repo)
         {
-            this.context = context;
+            this.repo = repo;
         }
 
         public async Task AddProductAsync(AddProductViewModel model)
@@ -26,19 +27,19 @@ namespace Project.Services
                 CategoryId = model.CategoryId
             };
 
-            await context.Items.AddAsync(item);
+            await repo.AddAsync<Item>(item);
             
-            await context.SaveChangesAsync();
+            await repo.SaveChangesAsync();
 
         }
 
         public async Task DeleteAsync(int productId)
         {
-            var product = await context.Items.FirstOrDefaultAsync(p => p.Id == productId);
+            var product = await repo.GetByIdAsync<Item>(productId);
 
-            context.Items.Remove(product);
+            await repo.DeleteAsync<Item>(product);
 
-            context.SaveChanges();  
+            await repo.SaveChangesAsync();  
 
         }
 
@@ -50,83 +51,83 @@ namespace Project.Services
 
             if(type == "Default")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .ToListAsync();
             }
             else if(type == "Alphabetically")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .OrderBy(m => m.Name)
                     .ToListAsync();
             }
             else if (type == "Newest")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .OrderByDescending(m => m.Id)
                     .ToListAsync();
             }
             else if (type == "Oldest")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .OrderBy(m => m.Id)
                     .ToListAsync();
             }
             else if (type == "Expensive")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .OrderByDescending(m => m.Price)
                     .ToListAsync();
             }
             else if (type == "Cheaper")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .OrderBy(m => m.Price)
                     .ToListAsync();
             }
             else if (type == "Available")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .Where(m => m.AvailableProducts > 0)
                     .ToListAsync();
             }
             else if (type == "Shoes")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .Where(m => m.Category.Name == "Shoes")
                     .ToListAsync();
             }
             else if (type == "Jeans")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .Where(m => m.Category.Name == "Jeans")
                     .ToListAsync();
             }
             else if (type == "T-Shirt")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .Where(m => m.Category.Name == "T-Shirt")
                     .ToListAsync();
             }
             else if (type == "Skirt")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .Where(m => m.Category.Name == "Skirt")
                     .ToListAsync();
             }
             else if (type == "Dress")
             {
-                entities = await context.Items
+                entities = await repo.AllReadonly<Item>()
                     .Include(m => m.Category)
                     .Where(m => m.Category.Name == "Dress")
                     .ToListAsync();
@@ -149,14 +150,14 @@ namespace Project.Services
 
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
-            return await context.Categories.ToListAsync();
+            return await repo.AllReadonly<Category>().ToListAsync();
         }
 
         public async Task EditProductAsync(Item model)
         {
-            Item item = await context.Items.FindAsync(model.Id);
+            Item item = await repo.GetByIdAsync<Item>(model.Id);
 
-            context.Items.Update(item);
+            repo.Update<Item>(item);
 
             item.AvailableProducts = model.AvailableProducts;
             item.Description = model.Description;
@@ -166,12 +167,12 @@ namespace Project.Services
             item.Name = model.Name;
             item.Price = model.Price;
 
-            await context.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
 
         public async Task<Item> GetForEditAsync(int productId)
         {
-            Item entity = await context.Items.FindAsync(productId);
+            Item entity = await repo.GetByIdAsync<Item>(productId);
 
             entity.Categories = await this.GetCategoriesAsync();
 
@@ -181,14 +182,14 @@ namespace Project.Services
 
         public async Task<Item> GetProductAsync(int productId)
         {
-            Item product = await context.Items.FirstOrDefaultAsync(product => product.Id == productId);
+            Item product = await repo.GetByIdAsync<Item>(productId);
 
             return product;
         }
 
         public async Task<IEnumerable<ProductViewModel>> GetProductByStringAsync(string text)
         {
-            var items = await context.Items.Where(s => s.Name!.Contains(text)).Select(i => new ProductViewModel
+            var items = await repo.AllReadonly<Item>().Where(s => s.Name!.Contains(text)).Select(i => new ProductViewModel
             {
                 Name = i.Name,
                 Description = i.Description,

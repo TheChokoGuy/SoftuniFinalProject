@@ -5,16 +5,17 @@ using Project.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Project.Models;
+using Project.Data.Common;
 
 namespace Project.Services
 {
     public class CartService : ICartService
     {
-        private readonly ApplicationDbContext context;
+        private readonly IRepository repo;
 
-        public CartService(ApplicationDbContext context)
+        public CartService(IRepository repo)
         {
-            this.context = context;
+            this.repo = repo;
 
         }
         public async Task<string> AddToCartAsync(string cookie, int productId)
@@ -43,7 +44,7 @@ namespace Project.Services
 
             foreach (var item in listCart)
             {
-                items.Add(await context.Items.FindAsync(item));
+                items.Add(await repo.GetByIdAsync<Item>(item));
             }
 
             List<ProductViewModel> models = new List<ProductViewModel>();
@@ -51,7 +52,7 @@ namespace Project.Services
 
             foreach (var item in items)
             {
-                Category cateogry = await context.Categories.FindAsync(item.CategoryId);
+                Category cateogry = await repo.GetByIdAsync<Category>(item.CategoryId);
 
                 models.Add(new ProductViewModel()
                 {

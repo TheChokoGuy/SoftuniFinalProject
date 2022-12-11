@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Project.Data;
+using Project.Data.Common;
 using Project.Data.Models;
 using Project.Models;
 
@@ -7,10 +8,10 @@ namespace Project.Services.Liked
 {
     public class LikedService : ILikedService
     {
-        private readonly ApplicationDbContext context;
-        public LikedService(ApplicationDbContext context)
+        private readonly IRepository repo;
+        public LikedService(IRepository repo)
         {
-            this.context = context;
+            this.repo = repo;
         }
 
         public async Task<string> AddToLikedAsync(string cookie, int productId)
@@ -38,7 +39,7 @@ namespace Project.Services.Liked
 
             foreach (var item in listLiked)
             {
-                items.Add(await context.Items.FindAsync(item));
+                items.Add(await repo.GetByIdAsync<Item>(item));
             }
 
             List<ProductViewModel> models = new List<ProductViewModel>();
@@ -46,7 +47,7 @@ namespace Project.Services.Liked
 
             foreach (var item in items)
             {
-                Category cateogry = await context.Categories.FindAsync(item.CategoryId);
+                Category cateogry = await repo.GetByIdAsync<Category>(item.CategoryId);
 
                 models.Add(new ProductViewModel()
                 {

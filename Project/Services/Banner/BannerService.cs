@@ -1,22 +1,23 @@
 ﻿using Project.Data.Models;
 using Project.Data;
 using System;
+using Project.Data.Common;
 
 namespace Project.Services.Banner
 {
     public class BannerService : IBannerService
     {
-        private readonly ApplicationDbContext context;
+        private readonly IRepository repo;
 
-        public BannerService(ApplicationDbContext context)
+        public BannerService(IRepository repo)
         {
-            this.context = context;
+            this.repo = repo;
         }
 
         public async Task AddBannerAsync(Data.Models.Banner model)
         {
-            await context.Banners.AddAsync(model);
-            await context.SaveChangesAsync();
+            await repo.AddAsync<Data.Models.Banner>(model);
+            await repo.SaveChangesAsync();
         }
 
         public Task DeleteAsync(int productId)
