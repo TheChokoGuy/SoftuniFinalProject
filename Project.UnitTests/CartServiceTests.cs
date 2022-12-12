@@ -124,6 +124,49 @@ namespace Project.UnitTests
 
         }
 
+        [Test]
+        public async Task TestGetOrdersAsync()
+        {
+            var repoMock = new Mock<IRepository>();
+            List<Order> orders = new List<Order>()
+            {
+                new Order() { Id = 1, FirstName="Gabriel", LastName="Goranov", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="" },
+                new Order() { Id = 2, FirstName="GOSHO", LastName="petroc", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="" },
+            };
+
+            repoMock.Setup(r => r.AllReadonly<Order>())
+                .Returns(orders.AsQueryable().BuildMock());
+
+            repo = repoMock.Object;
+
+            service = new CartService(repo);
+            IEnumerable<Order> products = await service.GetOrdersAsync();
+
+            Assert.That(products.Any(o => o.FirstName == orders[0].FirstName) == true);
+            Assert.That(products.Any(o => o.FirstName == orders[1].FirstName) == true);
+        }
+
+        [Test]
+        public async Task TestAddOrderAsync()
+        {
+            List<Order> orders = new List<Order>()
+            {
+                new Order() { Id = 1, FirstName="Gabriel", LastName="Goranov", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="" },
+                new Order() { Id = 2, FirstName="GOSHO", LastName="petroc", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="" },
+            };
+
+            repo = new Repository(context);
+            service = new CartService(repo);
+
+            await service.AddOrderAsync(orders[0]);
+            await service.AddOrderAsync(orders[1]);
+
+            var ords = await service.GetOrdersAsync();
+
+            Assert.That(ords.Any(o => o.FirstName == orders[0].FirstName) == true);
+            Assert.That(ords.Any(o => o.FirstName == orders[1].FirstName) == true);
+        }
+
         [TearDown]
         public void TearDown()
         {
