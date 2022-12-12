@@ -120,18 +120,7 @@ namespace Project.Controllers
             return RedirectToAction("Index","Home");
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> SaveAddress(UserInformation info)
-        {
-            User user = await userManager.GetUserAsync(HttpContext.User);
-            if(user.Addresses == null)
-            {
-                user.Addresses = new List<UserInformation>();
-            }
-            user.Addresses.Add(info);
-            return RedirectToAction("Cart", "Cart");
-        }
+        
 
         
 

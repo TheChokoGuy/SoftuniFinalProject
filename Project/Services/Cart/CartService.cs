@@ -18,6 +18,14 @@ namespace Project.Services
             this.repo = repo;
 
         }
+
+        public async Task AddOrderAsync(Order order)
+        {
+            await repo.AddAsync<Order>(order);
+
+            await repo.SaveChangesAsync();
+        }
+
         public async Task<string> AddToCartAsync(string cookie, int productId)
         {
             List<int> listCart = JsonConvert.DeserializeObject<List<int>>(cookie);
@@ -67,6 +75,12 @@ namespace Project.Services
             }
 
             return models;
+        }
+
+        public async Task<IEnumerable<Order>> GetOrdersAsync()
+        {
+            List<Order> orders = await repo.AllReadonly<Order>().ToListAsync();
+            return orders;
         }
     }
 }

@@ -1,18 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Project.Data.Models;
+using Project.Models;
 using Project.Services;
+using System.Security.Claims;
 
 namespace Project.Controllers
 {
     public class CartController : Controller
     {
         private readonly ICartService service;
-
-        public CartController(ICartService service)
+        private readonly UserManager<User> userManager;
+        public CartController(ICartService service, UserManager<User> um)
         {
             this.service = service;
+            userManager = um;
         }
 
 
@@ -94,27 +98,32 @@ namespace Project.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Information()
+        public IActionResult Information()
+        {
+            return View(new Order());
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Order(Order info)
         {
             string cookie = Request.Cookies["Cart"];
+            IEnumerable<CartProductViewModel> list = await service.GetCartProducts(cookie);
+            info.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            info.Price = list.Sum(p => p.Price);
+            info.Date = DateTime.UtcNow.ToShortDateString();
+            await service.AddOrderAsync(info);
 
-            CookieOptions option = new CookieOptions();
-            option.IsEssential = true;
-            option.Expires = DateTime.Now.AddDays(7);
+            Response.Cookies.Delete("Cart");
 
-            if (cookie == null)
-            {
-                var cart = new List<int>();
+            return View();
+        }
 
-                var jsonCart = JsonConvert.SerializeObject(cart);
-
-
-                Response.Cookies.Append("Cart", jsonCart, option);
-            }
-
-            var products = await service.GetCartProducts(cookie);
-
-            return View(new UserInformation());
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Orders()
+        {
+            return View(await service.GetOrdersAsync());
         }
 
     }

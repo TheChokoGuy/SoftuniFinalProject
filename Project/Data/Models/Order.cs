@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project.Data.Models
 {
-    public class UserInformation
+    public class Order
     {
         [Key]
         public int Id { get; set; }
@@ -11,6 +11,9 @@ namespace Project.Data.Models
         [Required]
         [StringLength(15)]
         public string FirstName { get; set; }
+
+        [Required]
+        public decimal Price { get; set; }
 
         [Required]
         [StringLength(15)]
@@ -34,6 +37,16 @@ namespace Project.Data.Models
 
         [Required]
         [StringLength(10)]
-        public int PostalCode { get; set; }
+        public string PostalCode { get; set; }
+
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string Card { get; set; }
+
+        [Required]
+        public string Date { get; set; }
     }
 }

@@ -8,6 +8,5 @@ namespace Project.Data.Models
     public class User : IdentityUser
     {
 
-        public List<UserInformation> Addresses { get; set; }
     }
 }
