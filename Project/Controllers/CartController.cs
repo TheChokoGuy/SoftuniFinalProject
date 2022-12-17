@@ -123,7 +123,8 @@ namespace Project.Controllers
         [Authorize]
         public async Task<IActionResult> Orders()
         {
-            return View(await service.GetOrdersAsync());
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return View(await service.GetOrdersAsync(userId));
         }
 
     }

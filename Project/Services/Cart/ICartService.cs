@@ -11,6 +11,6 @@ namespace Project.Services
         public Task<IEnumerable<CartProductViewModel>> GetCartProducts(string cookie);
 
         public Task AddOrderAsync(Order order);
-        public Task<IEnumerable<Order>> GetOrdersAsync();
+        public Task<IEnumerable<Order>> GetOrdersAsync(string userId);
     }
 }

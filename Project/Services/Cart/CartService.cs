@@ -77,9 +77,9 @@ namespace Project.Services
             return models;
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersAsync()
+        public async Task<IEnumerable<Order>> GetOrdersAsync(string userId)
         {
-            List<Order> orders = await repo.AllReadonly<Order>().ToListAsync();
+            List<Order> orders = await repo.AllReadonly<Order>().Where(o => o.UserId == userId).ToListAsync();
             return orders;
         }
     }
