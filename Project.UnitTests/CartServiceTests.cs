@@ -130,8 +130,8 @@ namespace Project.UnitTests
             var repoMock = new Mock<IRepository>();
             List<Order> orders = new List<Order>()
             {
-                new Order() { Id = 1, FirstName="Gabriel", LastName="Goranov", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="" },
-                new Order() { Id = 2, FirstName="GOSHO", LastName="petroc", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="" },
+                new Order() { Id = 1, FirstName="Gabriel", LastName="Goranov", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="uid" },
+                new Order() { Id = 2, FirstName="GOSHO", LastName="petroc", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="uid" },
             };
 
             repoMock.Setup(r => r.AllReadonly<Order>())
@@ -140,7 +140,7 @@ namespace Project.UnitTests
             repo = repoMock.Object;
 
             service = new CartService(repo);
-            IEnumerable<Order> products = await service.GetOrdersAsync();
+            IEnumerable<Order> products = await service.GetOrdersAsync("uid");
 
             Assert.That(products.Any(o => o.FirstName == orders[0].FirstName) == true);
             Assert.That(products.Any(o => o.FirstName == orders[1].FirstName) == true);
@@ -151,8 +151,8 @@ namespace Project.UnitTests
         {
             List<Order> orders = new List<Order>()
             {
-                new Order() { Id = 1, FirstName="Gabriel", LastName="Goranov", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="" },
-                new Order() { Id = 2, FirstName="GOSHO", LastName="petroc", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="" },
+                new Order() { Id = 1, FirstName="Gabriel", LastName="Goranov", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="uid" },
+                new Order() { Id = 2, FirstName="GOSHO", LastName="petroc", Address="", Card="", City="", Country="", Date="", PhoneNumber="", PostalCode="", Price=33.99M, UserId ="uid" },
             };
 
             repo = new Repository(context);
@@ -161,7 +161,7 @@ namespace Project.UnitTests
             await service.AddOrderAsync(orders[0]);
             await service.AddOrderAsync(orders[1]);
 
-            var ords = await service.GetOrdersAsync();
+            var ords = await service.GetOrdersAsync("uid");
 
             Assert.That(ords.Any(o => o.FirstName == orders[0].FirstName) == true);
             Assert.That(ords.Any(o => o.FirstName == orders[1].FirstName) == true);
